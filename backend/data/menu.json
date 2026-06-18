@@ -1,0 +1,142 @@
+[
+  {
+    "id": 5,
+    "nameEn": "Special Macchiato",
+    "nameAm": "ስፔሻል ማኪያቶ",
+    "name": "Special Macchiato",
+    "category": "drinks",
+    "description": "Rich espresso layered with steamed milk and foam, topped with chocolate drizzle",
+    "descEn": "Rich espresso layered with steamed milk and foam, topped with chocolate drizzle",
+    "descAm": "በጥራት ከተቆላ ቡና የተዘጋጀ ማኪያቶ በወተት እና በቸኮሌት ክሬም።",
+    "priceETB": 100,
+    "priceUSD": 1,
+    "isAvailable": true,
+    "isFasting": false,
+    "image": "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=500",
+    "ingredientsEn": [
+      "[\"Espresso\"",
+      "\"Milk\"",
+      "\"Chocolate Syrup\"]"
+    ],
+    "ingredientsAm": [
+      "[\"ኤስፕሬሶ\"",
+      "\"ወተት\"",
+      "\"ቸኮሌት ሲረፕ\"]"
+    ],
+    "nutrition": {
+      "calories": 210,
+      "protein": 12,
+      "carbs": 18,
+      "fat": 8,
+      "fiber": 0,
+      "servingSize": "250ml"
+    }
+  },
+  {
+    "id": 6,
+    "nameEn": "Special Chechebsa",
+    "nameAm": "ስፔሻል ጨጨብሳ",
+    "name": "Special Chechebsa",
+    "category": "breakfast",
+    "description": "Traditional shredded flatbread prepared with spiced kibe (butter) and honey, served with yogurt.",
+    "descEn": "Traditional shredded flatbread prepared with spiced kibe (butter) and honey, served with yogurt.",
+    "descAm": "በቅመም ቅቤ እና በማር የተለወሰ ጨጨብሳ ከእርጎ ጋር።",
+    "priceETB": 280,
+    "priceUSD": 2,
+    "isAvailable": true,
+    "isFasting": false,
+    "image": "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=500",
+    "ingredientsEn": [
+      "[\"Flour\"",
+      "\"Spiced Butter\"",
+      "\"Honey\"",
+      "\"Yogurt\"]"
+    ],
+    "ingredientsAm": [
+      "[\"ዱቄት\"",
+      "\"ንጥር ቅቤ\"",
+      "\"ማር\"",
+      "\"እርጎ\"]"
+    ],
+    "nutrition": {
+      "calories": 420,
+      "protein": 16,
+      "carbs": 52,
+      "fat": 18,
+      "fiber": 3,
+      "servingSize": "350g"
+    }
+  },
+  {
+    "id": 7,
+    "nameEn": "Loaded French Fries",
+    "nameAm": "ቺፕስ ስፔሻል",
+    "name": "Loaded French Fries",
+    "category": "snacks",
+    "description": "Crispy golden fries served with ketchup, mayonnaise, and melted cheese flavor",
+    "descEn": "Crispy golden fries served with ketchup, mayonnaise, and melted cheese flavor",
+    "descAm": "በቅመም የተጠበሰ ድንች በቺዝ፣ ኬትአፕ እና ማዮኔዝ ክሬም።",
+    "priceETB": 170,
+    "priceUSD": 1,
+    "isAvailable": true,
+    "isFasting": true,
+    "image": "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500",
+    "ingredientsEn": [
+      "[\"Potatoes\"",
+      "\"Oil\"",
+      "\"Ketchup\"",
+      "\"Mayonnaise\"]"
+    ],
+    "ingredientsAm": [
+      "[\"ድንች\"",
+      "\"ዘይት\"",
+      "\"ኬችአፕ\"",
+      "\"ማዮኔዝ\"]"
+    ],
+    "nutrition": {
+      "calories": 180,
+      "protein": 8,
+      "carbs": 42,
+      "fat": 20,
+      "fiber": 4,
+      "servingSize": "300g"
+    }
+  },
+  {
+    "id": 8,
+    "nameEn": "Doro Wat (Chicken Stew)",
+    "nameAm": "ዶሮ ወጥ",
+    "name": "Doro Wat (Chicken Stew)",
+    "category": "traditional",
+    "description": "Traditional Ethiopian chicken stew simmered in spicy berbere sauce, served with Injera.",
+    "descEn": "Traditional Ethiopian chicken stew simmered in spicy berbere sauce, served with Injera.",
+    "descAm": "በቅመም እና በበርበሬ የተሰራ ድንቅ የሀገር ባህል የዶሮ ወጥ ከእንጀራ ጋር።",
+    "priceETB": 950,
+    "priceUSD": 6,
+    "isAvailable": true,
+    "isFasting": false,
+    "image": "https://res.cloudinary.com/dukdaui1v/image/upload/v1781748052/digitalmenu/licslwetvslmmstvocoh.webp",
+    "ingredientsEn": [
+      "[\"Chicken\"",
+      "\"Spiced Butter\"",
+      "\"Berbere\"",
+      "\"Egg\"",
+      "\"Injera\"]"
+    ],
+    "ingredientsAm": [
+      "[\"ዶሮ\"",
+      "\"ቅቤ\"",
+      "\"በርበሬ\"",
+      "\"እንቁላል\"",
+      "\"እንጀራ\"]"
+    ],
+    "nutrition": {
+      "calories": 1570,
+      "protein": 440,
+      "carbs": 78,
+      "fat": 66,
+      "fiber": 69,
+      "servingSize": "800g"
+    }
+  }
+]
