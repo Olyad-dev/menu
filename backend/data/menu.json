@@ -138,5 +138,34 @@
       "fiber": 69,
       "servingSize": "800g"
     }
+  },
+  {
+    "id": 9,
+    "nameEn": "jjjj",
+    "nameAm": "kkkk",
+    "name": "jjjj",
+    "category": "mains",
+    "description": "jjj",
+    "descEn": "jjj",
+    "descAm": "ama",
+    "priceETB": 75,
+    "priceUSD": 0,
+    "isAvailable": true,
+    "isFasting": false,
+    "image": "https://res.cloudinary.com/dukdaui1v/image/upload/v1781914343/digitalmenu/mopje1hibymrpwxlvubn.webp",
+    "ingredientsEn": [
+      "[\"yyyy\"]"
+    ],
+    "ingredientsAm": [
+      "[\"jjjjj\"]"
+    ],
+    "nutrition": {
+      "calories": 5,
+      "protein": 6,
+      "carbs": 6,
+      "fat": 7,
+      "fiber": 0,
+      "servingSize": "77ml"
+    }
   }
 ]

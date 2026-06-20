@@ -10,7 +10,10 @@ const multer = require("multer");
 const sharp = require("sharp");
 const cloudinary = require("cloudinary").v2;
 
+const { connectMongo } = require("./db/connectMongo");
+
 dotenv.config();
+
 
 // Cloudinary config (only config if env vars exist)
 if (
@@ -38,7 +41,7 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
 
 const ADMIN_JWT_SECRET = process.env.ADMIN_JWT_SECRET;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD; // bootstrap when admin.json has no passwordHash
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD; 
 
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
@@ -628,9 +631,12 @@ app.use((err, req, res, next) => {
   });
 });
 
-const server = app.listen(PORT, () => {
-  console.log(`Backend server running on http://localhost:${PORT}`);
+connectMongo().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Backend server running on http://localhost:${PORT}`);
+  });
 });
+
 
 // Process-level stability listeners
 function gracefulRestart(reason, err) {
