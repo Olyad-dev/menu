@@ -41,7 +41,7 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
 
 const ADMIN_JWT_SECRET = process.env.ADMIN_JWT_SECRET;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD; 
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
@@ -633,7 +633,7 @@ app.use((err, req, res, next) => {
 
 connectMongo().then(() => {
   app.listen(PORT, () => {
-    console.log(`Backend server running on http://localhost:${PORT}`);
+console.log(`Backend server running on http://localhost:${PORT}`);
   });
 });
 

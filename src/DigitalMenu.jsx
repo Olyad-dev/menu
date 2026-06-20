@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "./api/axiosInstance";
+
 import { toast } from "react-toastify";
 
 // Restaurant Info
@@ -48,7 +49,8 @@ export default function AdvancedDigitalMenu({ onAdminOpen }) {
   useEffect(() => {
     const loadMenuItems = async () => {
       try {
-        const response = await axios.get("/api/menu-items");
+        const response = await axiosInstance.get("/api/menu-items");
+
         if (Array.isArray(response.data) && response.data.length > 0) {
           const normalized = response.data.map((item) => ({
             ...item,
@@ -231,13 +233,14 @@ export default function AdvancedDigitalMenu({ onAdminOpen }) {
     setFeedbackSubmitting(true);
     setFeedbackError("");
 
-    try {
-      const payload = {
-        rating: feedbackRating,
-        comment: feedbackComment,
-      };
+      try {
+        const payload = {
+          rating: feedbackRating,
+          comment: feedbackComment,
+        };
 
-      const res = await axios.post("/api/feedback", payload);
+        const res = await axiosInstance.post("/api/feedback", payload);
+
       if (res.data?.ok) {
         toast.success(t.successMessage || "አስተያየትዎ በተሳካ ሁኔታ ደርሷል!", {
           style: {
