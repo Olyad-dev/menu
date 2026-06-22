@@ -45,7 +45,7 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://fullstackmenu.vercel.app",
+  "https://mobilemenu.vercel.app",
 ];
 
 app.use(
