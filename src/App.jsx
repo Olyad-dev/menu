@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import DigitalMenu from "./DigitalMenu";
 import AdminDashboard from "./AdminDashboard";
 import AdminLogin from "./AdminLogin";
+import axiosInstance from "./api/axiosInstance";
 
 export default function App() {
   const [view, setView] = useState("menu");
@@ -14,14 +15,14 @@ export default function App() {
 
   const handleLogin = async (password) => {
     try {
-      const res = await fetch("/api/admin/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
-      });
+      const res = await axiosInstance.post(
+        "/api/admin/login",
+        { password },
+        { headers: { "Content-Type": "application/json" } },
+      );
 
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data.token) return false;
+      const data = res.data;
+      if (!data?.token) return false;
 
       localStorage.setItem("adminToken", String(data.token));
       setIsAdmin(true);
