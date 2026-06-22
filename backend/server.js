@@ -43,7 +43,26 @@ const CHAT_ID = process.env.CHAT_ID;
 const ADMIN_JWT_SECRET = process.env.ADMIN_JWT_SECRET;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://fullstackmenu.vercel.app",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, 
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 app.use(express.json({ limit: "10mb" }));
 
 // Very small in-memory rate limit for public endpoints
