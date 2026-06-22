@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "./api/axiosInstance";
 import MenuItemRow from "./MenuItemRow";
 import translations from "./i18n";
 import "./App.css";
@@ -58,7 +58,7 @@ const AdminDashboard = ({ onLogout, lang = "en", setLang = () => {} }) => {
     const fetchMenuItems = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("/api/menu-items");
+        const response = await axiosInstance.get("/api/menu-items");
         const normalized = response.data.map(normalizeItem);
         setMenuItems(normalized);
       } catch (error) {
@@ -74,7 +74,7 @@ const AdminDashboard = ({ onLogout, lang = "en", setLang = () => {} }) => {
   useEffect(() => {
     const fetchExchangeRate = async () => {
       try {
-        const response = await axios.get("/api/exchange-rate");
+        const response = await axiosInstance.get("/api/exchange-rate");
         if (response.data?.exchangeRate) {
           setExchangeRate(response.data.exchangeRate);
         }
@@ -94,11 +94,15 @@ const AdminDashboard = ({ onLogout, lang = "en", setLang = () => {} }) => {
   const updateMenuItem = async (id, updatedData, opts = {}) => {
     try {
       const isMultipart = !!opts.multipart;
-      const response = await axios.patch(`/api/menu-items/${id}`, updatedData, {
-        headers: isMultipart
-          ? { "Content-Type": "multipart/form-data" }
-          : undefined,
-      });
+      const response = await axiosInstance.patch(
+        `/api/menu-items/${id}`,
+        updatedData,
+        {
+          headers: isMultipart
+            ? { "Content-Type": "multipart/form-data" }
+            : undefined,
+        },
+      );
 
       // Ensure types match and update immediately using response payload.
       const updated = response.data;
@@ -169,7 +173,7 @@ const AdminDashboard = ({ onLogout, lang = "en", setLang = () => {} }) => {
       };
       formData.append("nutrition", JSON.stringify(nutrition));
 
-      const response = await axios.post("/api/menu-items", formData, {
+      const response = await axiosInstance.post("/api/menu-items", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const created = response.data;
@@ -206,7 +210,7 @@ const AdminDashboard = ({ onLogout, lang = "en", setLang = () => {} }) => {
 
     setBulkUpdating(true);
     try {
-      const response = await axios.patch(
+      const response = await axiosInstance.patch(
         "/api/menu-items",
         { exchangeRate },
         {
@@ -231,7 +235,7 @@ const AdminDashboard = ({ onLogout, lang = "en", setLang = () => {} }) => {
     }
 
     try {
-      await axios.delete(`/api/menu-items/${id}`);
+      await axiosInstance.delete(`/api/menu-items/${id}`);
       setMenuItems((prev) => prev.filter((item) => item.id !== id));
       showToast("Menu item deleted.");
     } catch (error) {

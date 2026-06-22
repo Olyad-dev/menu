@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
 import { Eye, EyeOff } from "lucide-react";
+import axiosInstance from "./api/axiosInstance";
 
 const AdminChangePassword = ({ onDone }) => {
 
@@ -37,7 +37,7 @@ const AdminChangePassword = ({ onDone }) => {
 
     setSubmitting(true);
     try {
-      const res = await axios.post(
+      const res = await axiosInstance.post(
         "/api/admin/change-password",
         {
           currentPassword,
