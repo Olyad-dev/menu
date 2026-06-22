@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import DigitalMenu from "./DigitalMenu";
 import AdminDashboard from "./AdminDashboard";
 import AdminLogin from "./AdminLogin";
@@ -9,9 +9,6 @@ export default function App() {
   const [view, setView] = useState("menu");
   const [isAdmin, setIsAdmin] = useState(false);
   // token is stored inside AdminDashboard via localStorage
-
-
-
 
   const [lang, setLang] = useState("en");
 
@@ -22,6 +19,7 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),
       });
+
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.token) return false;
 
@@ -33,7 +31,6 @@ export default function App() {
       return false;
     }
   };
-
 
   const handleLogout = () => {
     localStorage.removeItem("adminToken");
@@ -77,7 +74,7 @@ export default function App() {
         <p>
           Built with ❤️ by{" "}
           <a
-            href="https://olyadgetnet.vercel.app/" 
+            href="https://olyadgetnet.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="font-semibold text-amber-600 transition hover:text-amber-700 hover:underline"
