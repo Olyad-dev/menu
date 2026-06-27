@@ -14,7 +14,6 @@ const { connectMongo } = require("./db/connectMongo");
 
 dotenv.config();
 
-
 // Cloudinary config (only config if env vars exist)
 if (
   process.env.CLOUDINARY_CLOUD_NAME &&
@@ -48,21 +47,24 @@ const allowedOrigins = [
   "https://mobilemenu.vercel.app",
 ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true, 
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  }),
-);
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+
+// Ensure preflight succeeds for all routes (OPTIONS)
+app.options("*", cors(corsOptions));
 app.use(express.json({ limit: "10mb" }));
 
 // Very small in-memory rate limit for public endpoints
@@ -242,6 +244,10 @@ const upload = multer({
 });
 
 // ---------- Routes ----------
+app.get('/api/ping', (req, res) => {
+  res.status(200).send("Server is awake!");
+});
+
 app.get("/api/menu-items", async (req, res) => {
   try {
     const items = await readData();
@@ -652,10 +658,9 @@ app.use((err, req, res, next) => {
 
 connectMongo().then(() => {
   app.listen(PORT, () => {
-console.log(`Backend server running on http://localhost:${PORT}`);
+    console.log(`Backend server running on http://localhost:${PORT}`);
   });
 });
-
 
 // Process-level stability listeners
 function gracefulRestart(reason, err) {

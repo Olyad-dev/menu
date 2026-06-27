@@ -21,6 +21,7 @@ export default function AdvancedDigitalMenu({ onAdminOpen }) {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentView, setCurrentView] = useState("menu"); // 'menu' | 'home'
+
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [cart, setCart] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -30,6 +31,18 @@ export default function AdvancedDigitalMenu({ onAdminOpen }) {
   const [fastingFilter, setFastingFilter] = useState("all");
   // Feedback form (mobile sidebar)
   const [feedbackOpen, setFeedbackOpen] = useState(false);
+
+  // Loading + PWA install UI
+  const [loadingMenu, setLoadingMenu] = useState(true);
+  const [installVisible, setInstallVisible] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+
+  const INSTALL_SHOWN_KEY = "dmenu_install_prompt_shown_v1";
+  const INSTALL_DONE_KEY = "dmenu_install_prompt_completed_v1";
+
+  const LOADING_MIN_MS = 5000;
+
+
 
   // Dropdowns (mobile sidebar)
   const [paymentDropdownOpen, setPaymentDropdownOpen] = useState(false);
@@ -47,8 +60,66 @@ export default function AdvancedDigitalMenu({ onAdminOpen }) {
 
 
   useEffect(() => {
+    // PWA: "beforeinstallprompt" (one-time install UI)
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+
+      if (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches)
+        return;
+
+      if (localStorage.getItem(INSTALL_DONE_KEY) === "1") return;
+
+      setDeferredPrompt(e);
+
+      const alreadyShown = localStorage.getItem(INSTALL_SHOWN_KEY) === "1";
+      setInstallVisible(!alreadyShown);
+
+      if (!alreadyShown) localStorage.setItem(INSTALL_SHOWN_KEY, "1");
+    };
+
+    const handleAppInstalled = () => {
+      localStorage.setItem(INSTALL_DONE_KEY, "1");
+      setInstallVisible(false);
+      setDeferredPrompt(null);
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener("appinstalled", handleAppInstalled);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener("appinstalled", handleAppInstalled);
+    };
+  }, []);
+
+  const onClickInstall = async () => {
+    try {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const choice = await deferredPrompt.userChoice;
+      if (choice && choice.outcome === "accepted") {
+        localStorage.setItem(INSTALL_DONE_KEY, "1");
+        setInstallVisible(false);
+        setDeferredPrompt(null);
+      } else {
+        setInstallVisible(false);
+      }
+    } catch {
+      setInstallVisible(false);
+    }
+  };
+
+
+
+
+  useEffect(() => {
+    let cancelled = false;
+
     const loadMenuItems = async () => {
+      const start = Date.now();
       try {
+        setLoadingMenu(true);
+
         const response = await axiosInstance.get("/api/menu-items");
 
         if (Array.isArray(response.data) && response.data.length > 0) {
@@ -62,20 +133,30 @@ export default function AdvancedDigitalMenu({ onAdminOpen }) {
                 : Math.round(item.price / EXCHANGE_RATE)),
           }));
 
-          const final = normalized;
-
-          setMenuItems(final);
+          if (!cancelled) setMenuItems(normalized);
         }
       } catch (error) {
         console.warn(
           "Unable to fetch backend menu items, using local fallback.",
           error,
         );
+      } finally {
+        const elapsed = Date.now() - start;
+        const remaining = Math.max(0, LOADING_MIN_MS - elapsed);
+        await new Promise((r) => setTimeout(r, remaining));
+        if (!cancelled) setLoadingMenu(false);
       }
+
     };
 
+
     loadMenuItems();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
+
 
   // Language mapping helper
   const t = {
@@ -833,9 +914,32 @@ export default function AdvancedDigitalMenu({ onAdminOpen }) {
       <div
         className={`max-w-5xl mx-auto px-3 sm:px-4 mt-4 transition-colors duration-300`}
       >
-        {currentView === "menu" ? (
-          /* ================= MENU VIEW ================= */
+        {installVisible && deferredPrompt && (
+          <div className="dmenu-installBar">
+            <div className={`dmenu-installCard ${isDarkMode ? "dark" : ""}`}>
+              <div className="dmenu-installRow">
+                <div className={`dmenu-installText ${isDarkMode ? "dark" : ""}`}>
+                  Install Menu App
+                </div>
+                <button className="dmenu-installBtn" onClick={onClickInstall}>
+                  Install
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Loading screen while menu items are being fetched (min 5 seconds) */}
+        {currentView === "menu" && loadingMenu ? (
+          <div className="dmenu-loadingWrap">
+            <div className="dmenu-spinner" aria-label="Loading" />
+            <div className={`dmenu-loadingText ${isDarkMode ? "dark" : ""}`}>
+              Loading...
+            </div>
+          </div>
+        ) : currentView === "menu" ? (
           <>
+
             {/* Live Search Input */}
             <div className="relative mb-4">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

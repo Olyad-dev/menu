@@ -25,6 +25,7 @@ export default function App() {
       if (!data?.token) return false;
 
       localStorage.setItem("adminToken", String(data.token));
+
       setIsAdmin(true);
       setView("dashboard");
       return true;

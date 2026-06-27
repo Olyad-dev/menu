@@ -738,12 +738,7 @@ const AdminDashboard = ({ onLogout, lang = "en", setLang = () => {} }) => {
         </div>
       </div>
 
-      {/* Floating Status Notification Toast */}
-      {toast && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 rounded-3xl bg-amber-500 px-5 py-3 text-sm font-semibold text-white shadow-xl">
-          {toast}
-        </div>
-      )}
+
     </div>
   );
 };
